@@ -32,6 +32,16 @@ Private Sub ParseHeader(ts As Object, txt As clsTxtFile)
             If .IdTerm = "" And InStr(line, "IdTerm:[") > 0 Then
                 .IdTerm = Trim(Split(Split(line, "IdTerm:[")(1), " ")(0))
                 .IdTerm = Trim(Split(.IdTerm, "]")(0))
+
+                ' ===== Set Payment Type based on first character =====
+                Select Case Left(.IdTerm, 1)
+                    Case "5"
+                        .Payment = PaymentType.ECOMMERCE
+                    Case "6"
+                        .Payment = PaymentType.POS
+                    Case Else
+                        .Payment = PaymentType.UNKNOWN
+                End Select
             End If
 
             If .IdComer = "" And InStr(line, "IdComer:[") > 0 Then
