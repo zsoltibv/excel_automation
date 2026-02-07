@@ -8,15 +8,25 @@ Public Sub WriteTxtFileToExcel(txt As clsTxtFile, outputPath As String)
     Set wb = Workbooks.Add
     Set ws = wb.Sheets(1)
 
+    ' ===== HEADERS =====
     ws.Range("A1:M1").Value = Array( _
     "data_inreg", "data_op", _
-    "valoare", "comision", "nr_card", _
-    "retea", "tipc", "cod_aut", _
-    "rrn", "document", _
+    "valoare", "comision", _
+    "nr_card", "retea", "tipc", _
+    "cod_aut", "rrn", "document", _
     "id", "denumire", "cont")
+
+    ' ===== COLUMN FORMATS (ONCE) =====
+    ws.Columns(1).NumberFormat = "dd/mm/yyyy"
+    ws.Columns(2).NumberFormat = "dd/mm/yyyy"
+    ws.Columns(3).NumberFormat = "#,##0.00"
+    ws.Columns(4).NumberFormat = "#,##0.00"    
+    ws.Columns(8).NumberFormat = "@"
+    ws.Columns(9).NumberFormat = "@"   
 
     row = 2
 
+    ' ===== DATA =====
     For Each tx In txt.Transactions
         ws.Cells(row, 1).Value = tx.DataInreg
         ws.Cells(row, 2).Value = tx.DataOper
@@ -26,7 +36,7 @@ Public Sub WriteTxtFileToExcel(txt As clsTxtFile, outputPath As String)
         ws.Cells(row, 6).Value = tx.Retea
         ws.Cells(row, 7).Value = tx.TipC
         ws.Cells(row, 8).Value = tx.CodAut
-        ws.Cells(row, 9).NumberFormat = "@": ws.Cells(row, 9).Value = tx.RRN
+        ws.Cells(row, 9).Value = tx.RRN
         ws.Cells(row, 10).Value = tx.Document
 
         ws.Cells(row, 11).Value = txt.Header.IdTerm

@@ -34,16 +34,16 @@ Public Function ParseTxtFile(file As Object) As clsTxtFile
             If line Like "##/##/####*" Then
                 Set tx = New clsTransactionInfo
                 With tx
-                    .DataInreg = Trim(Mid(line, 1, 10))
-                    .DataOper = Trim(Mid(line, 12, 10))
-                    .Valoare = Replace(Trim(Mid(line, 32, 14)), ",", "")
-                    .Comision = Trim(Mid(line, 48, 12))
+                    .DataInreg = ParseDateDMY(Mid(line, 1, 10))
+                    .DataOper  = ParseDateDMY(Mid(line, 12, 10))
+                    .Valoare   = CCur(Replace(Mid(line, 32, 14), ",", ""))
+                    .Comision  = CCur(Replace(Mid(line, 48, 12), ",", ""))
                     .NumarCard = Trim(Mid(line, 62, 18))
-                    .Retea = Trim(Mid(line, 80, 5))
-                    .TipC = Trim(Mid(line, 86, 5))
-                    .CodAut = Trim(Mid(line, 95, 7))
-                    .RRN = Trim(Mid(line, 102, 12))
-                    .Document = Trim(Mid(line, 115))
+                    .Retea     = Trim(Mid(line, 80, 5))
+                    .TipC      = Trim(Mid(line, 86, 5))
+                    .CodAut    = Trim(Mid(line, 95, 7))
+                    .RRN       = Trim(Mid(line, 102, 12))
+                    .Document  = Trim(Mid(line, 115))
                 End With
 
                 txt.AddTransaction tx
@@ -54,4 +54,12 @@ Public Function ParseTxtFile(file As Object) As clsTxtFile
 
         ts.Close
         Set ParseTxtFile = txt
+End Function
+
+Public Function ParseDateDMY(Byval value As String) As Date
+    ParseDateDMY = DateSerial( _
+    CInt(Mid(value, 7, 4)), _
+    CInt(Mid(value, 4, 2)), _
+    CInt(Mid(value, 1, 2)) _
+    )
 End Function
