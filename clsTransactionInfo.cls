@@ -21,6 +21,3 @@ Public CodAut As String
 Public RRN As String
 Public Document As String
 
-' Header info
-Public header As clsHeaderInfo
-

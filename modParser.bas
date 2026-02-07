@@ -1,38 +1,38 @@
-' modParser
 Option Explicit
 
-Public Function ParseTxtFile(file As Object) As Collection
+Public Function ParseTxtFile(file As Object) As clsTxtFile
     Dim ts As Object, line As String
-    Dim header As clsHeaderInfo
+    Dim txt As clsTxtFile
     Dim tx As clsTransactionInfo
-    Dim transactions As Collection
+
+    Set txt = New clsTxtFile
+    txt.FileName = file.Name
 
     Set ts = file.OpenAsTextStream(1)
-    Set transactions = New Collection
-    Set header = New clsHeaderInfo
 
     Do While Not ts.AtEndOfStream
         line = ts.ReadLine
 
-        ' Extract header info
-        If header.IdTerm = "" And InStr(line, "IdTerm:[") > 0 Then
-            header.IdTerm = Trim(Mid(line, InStr(line, "IdTerm:[") + 8))
-            header.IdTerm = Replace(header.IdTerm, "]", "")
-        End If
-        If header.DenumireTerminal = "" And Trim(line) Like "Denumire Terminal:*" Then
-            header.DenumireTerminal = Trim(Left(Mid(line, InStr(line, ":") + 1), 30))
-        End If
-        If header.Cont = "" And Trim(line) Like "Denumire Cont:*" Then
-            header.Cont = Trim(Mid(line, InStr(line, ":") + 1))
-        End If
+        ' ===== HEADER =====
+        With txt.Header
+            If .IdTerm = "" And InStr(line, "IdTerm:[") > 0 Then
+                .IdTerm = Replace(Trim(Mid(line, InStr(line, "IdTerm:[") + 8)), "]", "")
+            End If
 
-        ' Skip lines starting With "Referinta"
+            If .DenumireTerminal = "" And Trim(line) Like "Denumire Terminal:*" Then
+                .DenumireTerminal = Trim(Left(Mid(line, InStr(line, ":") + 1), 30))
+            End If
+
+            If .Cont = "" And Trim(line) Like "Denumire Cont:*" Then
+                .Cont = Trim(Mid(line, InStr(line, ":") + 1))
+            End If
+        End With
+
         If Trim(line) Like "Referinta:*" Then Goto NextLine
 
-            ' Transaction lines start With date
+            ' ===== TRANSACTION =====
             If line Like "##/##/####*" Then
                 Set tx = New clsTransactionInfo
-                Set tx.Header = header
                 With tx
                     .DataInreg = Trim(Mid(line, 1, 10))
                     .DataOper = Trim(Mid(line, 12, 10))
@@ -45,12 +45,13 @@ Public Function ParseTxtFile(file As Object) As Collection
                     .RRN = Trim(Mid(line, 102, 12))
                     .Document = Trim(Mid(line, 115))
                 End With
-                transactions.Add tx
+
+                txt.AddTransaction tx
             End If
 
  NextLine:
         Loop
 
         ts.Close
-        Set ParseTxtFile = transactions
+        Set ParseTxtFile = txt
 End Function

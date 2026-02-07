@@ -1,7 +1,6 @@
-' modExcelWriter
 Option Explicit
 
-Public Sub WriteTransactionsToExcel(transactions As Collection, outputPath As String)
+Public Sub WriteTxtFileToExcel(txt As clsTxtFile, outputPath As String)
     Dim wb As Workbook, ws As Worksheet
     Dim row As Long
     Dim tx As clsTransactionInfo
@@ -9,7 +8,6 @@ Public Sub WriteTransactionsToExcel(transactions As Collection, outputPath As St
     Set wb = Workbooks.Add
     Set ws = wb.Sheets(1)
 
-    ' Headers
     ws.Range("A1:M1").Value = Array( _
     "data_inreg", "data_op", _
     "valoare", "comision", "nr_card", _
@@ -19,7 +17,7 @@ Public Sub WriteTransactionsToExcel(transactions As Collection, outputPath As St
 
     row = 2
 
-    For Each tx In transactions
+    For Each tx In txt.Transactions
         ws.Cells(row, 1).Value = tx.DataInreg
         ws.Cells(row, 2).Value = tx.DataOper
         ws.Cells(row, 3).Value = tx.Valoare
@@ -31,9 +29,9 @@ Public Sub WriteTransactionsToExcel(transactions As Collection, outputPath As St
         ws.Cells(row, 9).NumberFormat = "@": ws.Cells(row, 9).Value = tx.RRN
         ws.Cells(row, 10).Value = tx.Document
 
-        ws.Cells(row, 11).Value = tx.Header.IdTerm
-        ws.Cells(row, 12).Value = tx.Header.DenumireTerminal
-        ws.Cells(row, 13).Value = tx.Header.Cont
+        ws.Cells(row, 11).Value = txt.Header.IdTerm
+        ws.Cells(row, 12).Value = txt.Header.DenumireTerminal
+        ws.Cells(row, 13).Value = txt.Header.Cont
 
         row = row + 1
     Next tx
