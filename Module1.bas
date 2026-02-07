@@ -60,7 +60,9 @@ Public Sub TxtToExcelGroupedFiles()
         outputPath = outputFolder & "\" & CleanFileName(firstTxt.Header.NumeComerciant) & "_" & paymentText & ".xlsx"
         
         ' Write group to Excel
+        Application.ScreenUpdating = False
         WriteGroupedTxtFilesToExcel grouped(groupKey), outputPath
+        Application.ScreenUpdating = True
     Next groupKey
 
     MsgBox "All TXT files grouped and written to separate Excel files.", vbInformation
