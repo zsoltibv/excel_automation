@@ -16,11 +16,20 @@ Public Function ParseTxtFile(file As Object) As clsTxtFile
         ' ===== HEADER =====
         With txt.Header
             If .IdTerm = "" And InStr(line, "IdTerm:[") > 0 Then
-                .IdTerm = Replace(Trim(Mid(line, InStr(line, "IdTerm:[") + 8)), "]", "")
+                .IdTerm = Trim(Split(Split(line, "IdTerm:[")(1), " ")(0))
+                .IdTerm = Trim(Split(.IdTerm, "]")(0))
+            End If
+
+            If .IdComer = "" And InStr(line, "IdComer:[") > 0 Then
+                .IdComer = Trim(Split(Split(line, "IdComer:[")(1), "]")(0))
             End If
 
             If .DenumireTerminal = "" And Trim(line) Like "Denumire Terminal:*" Then
-                .DenumireTerminal = Trim(Left(Mid(line, InStr(line, ":") + 1), 30))
+                .DenumireTerminal = RTrim(Left(Mid(line, InStr(line, ":") + 1), 35))
+            End If
+
+            If .NumeComerciant = "" And Trim(line) Like "Nume Comerciant:*" Then
+                .NumeComerciant = RTrim(Left(Mid(line, InStr(line, ":") + 1), 34))
             End If
 
             If .Cont = "" And InStr(line, "Cont:[") > 0 Then

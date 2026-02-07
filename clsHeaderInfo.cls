@@ -11,6 +11,8 @@ Attribute VB_Exposed = False
 Option Explicit
 
 Public IdTerm As String
+Public IdComer As String
 Public DenumireTerminal As String
+Public NumeComerciant As String
 Public Cont As String
 
