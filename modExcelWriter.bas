@@ -3,7 +3,10 @@ Option Explicit
 '========================
 ' Write a collection of clsTxtFile into a single Excel file
 '========================
-Public Sub WriteGroupedTxtFilesToExcel(txtCollection As Collection, outputPath As String)
+Public Sub WriteGroupedTxtFilesToExcel(txtCollection As Collection, _
+                                       outputPath As String, _
+                                       ByVal startDate As Date, _
+                                       ByVal endDate As Date)
     Dim wb As Workbook, ws As Worksheet
     Dim row As Long
     Dim txt As clsTxtFile
@@ -34,22 +37,28 @@ Public Sub WriteGroupedTxtFilesToExcel(txtCollection As Collection, outputPath A
     ' ===== DATA =====
     For Each txt In txtCollection
         For Each tx In txt.Transactions
-            ws.Cells(row, 1).Value = tx.DataInreg
-            ws.Cells(row, 2).Value = tx.DataOper
-            ws.Cells(row, 3).Value = tx.Valoare
-            ws.Cells(row, 4).Value = tx.Comision
-            ws.Cells(row, 5).Value = tx.NumarCard
-            ws.Cells(row, 6).Value = tx.Retea
-            ws.Cells(row, 7).Value = tx.TipC
-            ws.Cells(row, 8).Value = tx.CodAut
-            ws.Cells(row, 9).Value = tx.RRN
-            ws.Cells(row, 10).Value = tx.Document
 
-            ws.Cells(row, 11).Value = txt.Header.IdTerm
-            ws.Cells(row, 12).Value = txt.Header.DenumireTerminal
-            ws.Cells(row, 13).Value = txt.Header.Cont
+            ' ===== DATE FILTER =====
+            If tx.DataInreg >= startDate And tx.DataInreg <= endDate Then
 
-            row = row + 1
+                ws.Cells(row, 1).Value = tx.DataInreg
+                ws.Cells(row, 2).Value = tx.DataOper
+                ws.Cells(row, 3).Value = tx.Valoare
+                ws.Cells(row, 4).Value = tx.Comision
+                ws.Cells(row, 5).Value = tx.NumarCard
+                ws.Cells(row, 6).Value = tx.Retea
+                ws.Cells(row, 7).Value = tx.TipC
+                ws.Cells(row, 8).Value = tx.CodAut
+                ws.Cells(row, 9).Value = tx.RRN
+                ws.Cells(row, 10).Value = tx.Document
+
+                ws.Cells(row, 11).Value = txt.Header.IdTerm
+                ws.Cells(row, 12).Value = txt.Header.DenumireTerminal
+                ws.Cells(row, 13).Value = txt.Header.Cont
+
+                row = row + 1
+            End If
+
         Next tx
     Next txt
 

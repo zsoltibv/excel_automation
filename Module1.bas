@@ -1,7 +1,7 @@
 Attribute VB_Name = "Module1"
 Option Explicit
 
-Public Sub TxtToExcelGroupedFiles()
+Public Sub TxtToExcelGroupedFiles(ByVal startDate As Date, ByVal endDate As Date)
     Dim inputFolder As String, outputFolder As String
     Dim fso As Object, folder As Object, file As Object
     Dim txt As clsTxtFile
@@ -57,11 +57,16 @@ Public Sub TxtToExcelGroupedFiles()
         End Select
         
         ' Build output filename
-        outputPath = outputFolder & "\" & CleanFileName(firstTxt.Header.NumeComerciant) & "_" & paymentText & ".xlsx"
+        Dim datePart As String
+        datePart = Format(startDate, "dd-mm-yyyy") & "_to_" & Format(endDate, "dd-mm-yyyy")
+        outputPath = outputFolder & "\" & _
+                    CleanFileName(firstTxt.Header.NumeComerciant) & "_" & _
+                    paymentText & "_" & _
+                    datePart & ".xlsx"
         
         ' Write group to Excel
         Application.ScreenUpdating = False
-        WriteGroupedTxtFilesToExcel grouped(groupKey), outputPath
+        WriteGroupedTxtFilesToExcel grouped(groupKey), outputPath, startDate, endDate
         Application.ScreenUpdating = True
     Next groupKey
 
@@ -77,3 +82,15 @@ Private Function CleanFileName(str As String) As String
         CleanFileName = Replace(CleanFileName, ch, "_")
     Next ch
 End Function
+
+Sub RunTxtImportWithDateFilter()
+    Dim frm As New frmDateFilter
+    
+    frm.IsCancelled = True
+    frm.Show vbModal
+    
+    If frm.IsCancelled Then Exit Sub
+    
+    ' Call your existing logic
+    TxtToExcelGroupedFiles frm.StartDate, frm.EndDate
+End Sub
