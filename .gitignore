@@ -1,0 +1,7 @@
+# Ignore input and output folders
+input/
+output/
+output_example/
+
+# Ignore temporary Excel files
+~$*.xlsm
