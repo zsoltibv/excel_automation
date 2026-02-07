@@ -23,6 +23,7 @@ Public Sub WriteTxtFileToExcel(txt As clsTxtFile, outputPath As String)
     ws.Columns(4).NumberFormat = "#,##0.00"    
     ws.Columns(8).NumberFormat = "@"
     ws.Columns(9).NumberFormat = "@"   
+    ws.Columns(13).NumberFormat = "@"
 
     row = 2
 

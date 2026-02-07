@@ -23,8 +23,8 @@ Public Function ParseTxtFile(file As Object) As clsTxtFile
                 .DenumireTerminal = Trim(Left(Mid(line, InStr(line, ":") + 1), 30))
             End If
 
-            If .Cont = "" And Trim(line) Like "Denumire Cont:*" Then
-                .Cont = Trim(Mid(line, InStr(line, ":") + 1))
+            If .Cont = "" And InStr(line, "Cont:[") > 0 Then
+                .Cont = Trim(Split(Split(line, "Cont:[")(1), "]")(0))
             End If
         End With
 
