@@ -8,6 +8,7 @@ Public Sub TxtToExcelGroupedFiles(ByVal startDate As Date, ByVal endDate As Date
     Dim txtList As New Collection
     Dim grouped As Object 
     Dim key As String
+    Dim commissions As Object
 
     inputFolder = ThisWorkbook.Path & "\input"
     outputFolder = ThisWorkbook.Path & "\output"
@@ -36,6 +37,9 @@ Public Sub TxtToExcelGroupedFiles(ByVal startDate As Date, ByVal endDate As Date
         End If
         grouped(key).Add txt
     Next i
+
+    ' ===== Parse commission table first =====
+    Set commissions = ParseCommissionTable()
 
     ' ===== Write each group to a separate Excel file =====
     Dim groupKey As Variant
