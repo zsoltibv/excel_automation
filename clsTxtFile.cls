@@ -44,3 +44,9 @@ Public Sub AddTransaction(tx As clsTransactionInfo)
     mTransactions.Add tx
 End Sub
 
+Public Sub MergeTxtFile(txt As clsTxtFile)
+    Dim trx As clsTransactionInfo
+    For Each trx In txt.Transactions
+        mTransactions.Add trx
+    Next trx
+End Sub
