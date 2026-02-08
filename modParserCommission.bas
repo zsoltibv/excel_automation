@@ -58,16 +58,11 @@ Private Function ValidateCommissionTable(ws As Worksheet) As Boolean
         idTerm = Trim(ws.Cells(r, "A").Value)
         
         If idTerm <> "" Then
-            ' Check for missing values
+            ' Only check for missing commission percent (required field)
             If IsEmpty(ws.Cells(r, "B").Value) Or Trim(ws.Cells(r, "B").Value) = "" Then
                 errorMsg = errorMsg & "Procent Comision lipseste pentru ID Terminal: " & idTerm & vbCrLf
             End If
-            If IsEmpty(ws.Cells(r, "C").Value) Or Trim(ws.Cells(r, "C").Value) = "" Then
-                errorMsg = errorMsg & "Comision Minim lipseste pentru ID Terminal: " & idTerm & vbCrLf
-            End If
-            If IsEmpty(ws.Cells(r, "D").Value) Or Trim(ws.Cells(r, "D").Value) = "" Then
-                errorMsg = errorMsg & "Comision Maxim lipseste pentru ID Terminal: " & idTerm & vbCrLf
-            End If
+            ' Min and Max commission are optional - no validation needed
         End If
     Next r
     

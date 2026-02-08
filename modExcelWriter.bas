@@ -60,8 +60,8 @@ Public Sub WriteGroupedTxtFilesToExcel(txt As clsTxtFile, _
     ' ===== TOTAL ROW =====
     If row > 2 Then ' Only if there's data
         lastDataRow = row - 1
-        With ws.Cells(row, 3)
-            .Formula = "=SUM(C2:C" & lastDataRow & ")"
+        With ws.Cells(row, 4)
+            .Formula = "=SUM(D2:D" & lastDataRow & ")"
             .Font.Bold = True
             .Interior.Color = RGB(146, 208, 80) ' Green
         End With

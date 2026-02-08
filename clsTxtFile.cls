@@ -61,12 +61,12 @@ Public Sub MergeTxtFileFiltered(txt As clsTxtFile, _
                 Set comm = commissions(trx.IdTerm)
                 
                 ' Calculate: Valoare * CommissionPercent
-                calculatedComm = trx.Valoare * comm.CommissionPercent
+                calculatedComm = (trx.Valoare * comm.CommissionPercent) / 100
                 
-                ' Apply min/max limits
-                If calculatedComm > comm.MaxCommission Then
+                ' Apply min/max limits (only if they are non-zero)
+                If comm.MaxCommission > 0 And calculatedComm > comm.MaxCommission Then
                     trx.Comision = comm.MaxCommission
-                ElseIf calculatedComm < comm.MinCommission Then
+                ElseIf comm.MinCommission > 0 And calculatedComm < comm.MinCommission Then
                     trx.Comision = comm.MinCommission
                 Else
                     trx.Comision = calculatedComm
