@@ -46,6 +46,9 @@ Public Sub TxtToExcelGroupedFiles(ByVal startDate As Date, ByVal endDate As Date
     
     ' ===== Export grouped files to Excel =====
     ExportGroupedFilesToExcel grouped, outputFolder, startDate, endDate
+
+    ' ===== Backup and clean input folder =====
+    BackupAndCleanInputFolder inputFolder, startDate, endDate
     
     MsgBox "Operatiunea s-a finalizat cu succes." & vbCrLf & _
        "Fisierele TXT au fost grupate si exportate in fisiere Excel separate.", _

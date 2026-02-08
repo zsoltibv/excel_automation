@@ -3,5 +3,8 @@ input/
 output/
 output_example/
 
+# Ignore backup folders
+backup*/
+
 # Ignore temporary Excel files
 ~$*.xlsm

@@ -11,6 +11,7 @@ Public Function GroupTxtFiles(txtList As Collection, _
     Dim mergedTxt As clsTxtFile
     Dim key As String
     Dim i As Long
+    Dim hasTransactions As Boolean
     
     Set grouped = CreateObject("Scripting.Dictionary")
     
@@ -34,7 +35,21 @@ Public Function GroupTxtFiles(txtList As Collection, _
         End If
         
         grouped(key).MergeTxtFileFiltered txt, startDate, endDate, commissions
+
+        ' Check if any transactions were added
+        If grouped(key).Transactions.Count > 0 Then
+            hasTransactions = True
+        End If
     Next i
+
+    ' Check if any transactions exist
+    If Not hasTransactions Then
+        MsgBox "Nu au fost gasite tranzactii in intervalul selectat." & vbCrLf & _
+               "Verifica datele si incearca din nou.", _
+               vbExclamation, "Nicio tranzactie gasita"
+        Set GroupTxtFiles = Nothing
+        Exit Function
+    End If
     
     Set GroupTxtFiles = grouped
 End Function
