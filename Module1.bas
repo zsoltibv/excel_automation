@@ -30,7 +30,7 @@ Public Sub TxtToExcelGroupedFiles(ByVal startDate As Date, ByVal endDate As Date
     
     ' ===== Parse commission table FIRST =====
     Set commissions = ParseCommissionTable()
-    If commissions Is Nothing Then Exit Sub ' Stop if validation failed
+    If commissions Is Nothing Then Exit Sub 
     
     ' ===== Parse all TXT files =====
     For Each file In folder.Files
@@ -42,6 +42,7 @@ Public Sub TxtToExcelGroupedFiles(ByVal startDate As Date, ByVal endDate As Date
     
     ' ===== Group TXT files with filtering and commission calculation =====
     Set grouped = GroupTxtFiles(txtList, startDate, endDate, commissions)
+    If grouped Is Nothing Then Exit Sub 
     
     ' ===== Export grouped files to Excel =====
     ExportGroupedFilesToExcel grouped, outputFolder, startDate, endDate

@@ -17,6 +17,12 @@ Public Function GroupTxtFiles(txtList As Collection, _
     For i = 1 To txtList.Count
         Set txt = txtList(i)
         key = txt.Header.IdComer & "_" & txt.Header.Payment
+
+        ' Validate IdTerm exists in commission table
+        If Not ValidateIdTerm(txt.Header.IdTerm, commissions) Then
+            Set GroupTxtFiles = Nothing
+            Exit Function
+        End If
         
         If Not grouped.Exists(key) Then
             Set mergedTxt = New clsTxtFile
@@ -31,4 +37,15 @@ Public Function GroupTxtFiles(txtList As Collection, _
     Next i
     
     Set GroupTxtFiles = grouped
+End Function
+
+Private Function ValidateIdTerm(idTerm As String, commissions As Object) As Boolean
+    ValidateIdTerm = True
+    
+    If Not commissions.Exists(idTerm) Then
+        MsgBox "ID Terminal '" & idTerm & "' nu exista in sheet-ul Comisioane." & vbCrLf & _
+               "Adauga acest terminal in sheet-ul Comisioane.", _
+               vbCritical, "Eroare validare ID Terminal"
+        ValidateIdTerm = False
+    End If
 End Function

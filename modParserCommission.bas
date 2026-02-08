@@ -59,24 +59,20 @@ Private Function ValidateCommissionTable(ws As Worksheet) As Boolean
         
         If idTerm <> "" Then
             ' Check for missing values
-            Dim completeMsg As String
-            completeMsg = ". Completeaza datele lipsa in sheet-ul Comisioane." & vbCrLf
-
             If IsEmpty(ws.Cells(r, "B").Value) Or Trim(ws.Cells(r, "B").Value) = "" Then
-                errorMsg = errorMsg & "Procent Comision lipseste pentru ID Terminal: " & idTerm & completeMsg
+                errorMsg = errorMsg & "Procent Comision lipseste pentru ID Terminal: " & idTerm & vbCrLf
             End If
-
             If IsEmpty(ws.Cells(r, "C").Value) Or Trim(ws.Cells(r, "C").Value) = "" Then
-                errorMsg = errorMsg & "Comision Minim lipseste pentru ID Terminal: " & idTerm & completeMsg
+                errorMsg = errorMsg & "Comision Minim lipseste pentru ID Terminal: " & idTerm & vbCrLf
             End If
-
             If IsEmpty(ws.Cells(r, "D").Value) Or Trim(ws.Cells(r, "D").Value) = "" Then
-                errorMsg = errorMsg & "Comision Maxim lipseste pentru ID Terminal: " & idTerm & completeMsg
+                errorMsg = errorMsg & "Comision Maxim lipseste pentru ID Terminal: " & idTerm & vbCrLf
             End If
         End If
     Next r
     
     If errorMsg <> "" Then
+        errorMsg = errorMsg & vbCrLf & "Completeaza datele lipsa in sheet-ul Comisioane."
         MsgBox errorMsg, vbCritical, "Eroare la validarea tabelului de comisioane"
         ValidateCommissionTable = False
     End If
