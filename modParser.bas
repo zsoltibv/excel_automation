@@ -93,7 +93,7 @@ Private Sub ParseTransactions(ts As Object, txt As clsTxtFile)
                 .TipC      = Trim(Mid(line, 86, 5))
                 .CodAut    = Trim(Mid(line, 95, 7))
                 .RRN       = Trim(Mid(line, 102, 12))
-                .Document  = Trim(Mid(line, 115))
+                .Document  = RTrim(Mid(line, 115))
 
                 ' ===== Save header info with transaction =====
                 .IdTerm = txt.Header.IdTerm

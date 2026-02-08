@@ -8,6 +8,7 @@ Public Sub WriteGroupedTxtFilesToExcel(txt As clsTxtFile, _
     Dim wb As Workbook, ws As Worksheet
     Dim row As Long
     Dim tx As clsTransactionInfo
+    Dim lastDataRow As Long
     
     Set wb = Workbooks.Add
     Set ws = wb.Sheets(1)
@@ -19,6 +20,13 @@ Public Sub WriteGroupedTxtFilesToExcel(txt As clsTxtFile, _
         "nr_card", "retea", "tipc", _
         "cod_aut", "rrn", "document", _
         "id", "denumire", "cont")
+
+    ' ===== HEADER FORMATTING =====
+    With ws.Range("A1:M1")
+        .Font.Bold = True
+        .Interior.Color = RGB(217, 217, 217)
+        .HorizontalAlignment = xlCenter
+    End With
     
     ' ===== COLUMN FORMATS =====
     ws.Columns(1).NumberFormat = "dd/mm/yyyy"
@@ -48,6 +56,16 @@ Public Sub WriteGroupedTxtFilesToExcel(txt As clsTxtFile, _
         ws.Cells(row, 13).Value = tx.Cont
         row = row + 1
     Next tx
+    
+    ' ===== TOTAL ROW =====
+    If row > 2 Then ' Only if there's data
+        lastDataRow = row - 1
+        With ws.Cells(row, 3)
+            .Formula = "=SUM(C2:C" & lastDataRow & ")"
+            .Font.Bold = True
+            .Interior.Color = RGB(146, 208, 80) ' Green
+        End With
+    End If
     
     ws.Columns.AutoFit
     wb.SaveAs outputPath, xlOpenXMLWorkbook
