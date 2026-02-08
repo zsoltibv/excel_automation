@@ -39,7 +39,7 @@ Public Sub WriteGroupedTxtFilesToExcel(txtCollection As Collection, _
         For Each tx In txt.Transactions
 
             ' ===== DATE FILTER =====
-            If tx.DataInreg >= startDate And tx.DataInreg <= endDate Then
+            If tx.DataOper >= startDate And tx.DataOper <= endDate Then
 
                 ws.Cells(row, 1).Value = tx.DataInreg
                 ws.Cells(row, 2).Value = tx.DataOper
