@@ -8,7 +8,7 @@ Public Function ParseCommissionTable() As Object
     Dim lastRow As Long
     Dim r As Long
     
-    Dim idComer As String
+    Dim idTerm As String
     Dim comm As clsCommission
     
     Set dict = CreateObject("Scripting.Dictionary")
@@ -20,9 +20,9 @@ Public Function ParseCommissionTable() As Object
     ' Start from row 2 (skip headers)
     For r = 2 To lastRow
         
-        idComer = Trim(ws.Cells(r, "A").Value)  
+        idTerm = Trim(ws.Cells(r, "A").Value)  
             
-        If idComer <> "" Then
+        If idTerm <> "" Then
             Set comm = New clsCommission
             With comm
                 .CommissionPercent = CDbl(ws.Cells(r, "B").Value)
@@ -30,7 +30,7 @@ Public Function ParseCommissionTable() As Object
                 .MaxCommission = CDbl(ws.Cells(r, "D").Value)
             End With
             
-            Set dict(idComer) = comm
+            Set dict(idTerm) = comm
         End If
         
     Next r

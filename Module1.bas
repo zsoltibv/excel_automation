@@ -28,6 +28,9 @@ Public Sub TxtToExcelGroupedFiles(ByVal startDate As Date, ByVal endDate As Date
     If Not fso.FolderExists(outputFolder) Then fso.CreateFolder outputFolder
     Set folder = fso.GetFolder(inputFolder)
     
+    ' ===== Parse commission table FIRST =====
+    Set commissions = ParseCommissionTable()
+    
     ' ===== Parse all TXT files =====
     For Each file In folder.Files
         If LCase(fso.GetExtensionName(file.Name)) = "txt" Then
@@ -36,11 +39,8 @@ Public Sub TxtToExcelGroupedFiles(ByVal startDate As Date, ByVal endDate As Date
         End If
     Next file
     
-    ' ===== Group TXT files =====
-    Set grouped = GroupTxtFiles(txtList)
-    
-    ' ===== Parse commission table =====
-    Set commissions = ParseCommissionTable()
+    ' ===== Group TXT files with filtering and commission calculation =====
+    Set grouped = GroupTxtFiles(txtList, startDate, endDate, commissions)
     
     ' ===== Export grouped files to Excel =====
     ExportGroupedFilesToExcel grouped, outputFolder, startDate, endDate
@@ -49,4 +49,3 @@ Public Sub TxtToExcelGroupedFiles(ByVal startDate As Date, ByVal endDate As Date
        "Fisierele TXT au fost grupate si exportate in fisiere Excel separate.", _
        vbInformation, "Finalizat"
 End Sub
-

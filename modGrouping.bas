@@ -2,7 +2,10 @@ Attribute VB_Name = "modGrouping"
 
 Option Explicit
 
-Public Function GroupTxtFiles(txtList As Collection) As Object
+Public Function GroupTxtFiles(txtList As Collection, _
+                              startDate As Date, _
+                              endDate As Date, _
+                              commissions As Object) As Object
     Dim grouped As Object
     Dim txt As clsTxtFile
     Dim mergedTxt As clsTxtFile
@@ -24,7 +27,7 @@ Public Function GroupTxtFiles(txtList As Collection) As Object
             grouped.Add key, mergedTxt
         End If
         
-        grouped(key).MergeTxtFile txt
+        grouped(key).MergeTxtFileFiltered txt, startDate, endDate, commissions
     Next i
     
     Set GroupTxtFiles = grouped

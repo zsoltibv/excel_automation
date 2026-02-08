@@ -4,9 +4,7 @@ Option Explicit
 ' Write a single merged clsTxtFile into an Excel file
 '========================
 Public Sub WriteGroupedTxtFilesToExcel(txt As clsTxtFile, _
-                                       outputPath As String, _
-                                       ByVal startDate As Date, _
-                                       ByVal endDate As Date)
+                                       outputPath As String)
     Dim wb As Workbook, ws As Worksheet
     Dim row As Long
     Dim tx As clsTransactionInfo
@@ -35,23 +33,20 @@ Public Sub WriteGroupedTxtFilesToExcel(txt As clsTxtFile, _
     
     ' ===== DATA =====
     For Each tx In txt.Transactions
-        ' ===== DATE FILTER =====
-        If tx.DataOper >= startDate And tx.DataOper <= endDate Then
-            ws.Cells(row, 1).Value = tx.DataInreg
-            ws.Cells(row, 2).Value = tx.DataOper
-            ws.Cells(row, 3).Value = tx.Valoare
-            ws.Cells(row, 4).Value = tx.Comision
-            ws.Cells(row, 5).Value = tx.NumarCard
-            ws.Cells(row, 6).Value = tx.Retea
-            ws.Cells(row, 7).Value = tx.TipC
-            ws.Cells(row, 8).Value = tx.CodAut
-            ws.Cells(row, 9).Value = tx.RRN
-            ws.Cells(row, 10).Value = tx.Document
-            ws.Cells(row, 11).Value = tx.IdTerm
-            ws.Cells(row, 12).Value = tx.DenumireTerminal
-            ws.Cells(row, 13).Value = tx.Cont
-            row = row + 1
-        End If
+        ws.Cells(row, 1).Value = tx.DataInreg
+        ws.Cells(row, 2).Value = tx.DataOper
+        ws.Cells(row, 3).Value = tx.Valoare
+        ws.Cells(row, 4).Value = tx.Comision
+        ws.Cells(row, 5).Value = tx.NumarCard
+        ws.Cells(row, 6).Value = tx.Retea
+        ws.Cells(row, 7).Value = tx.TipC
+        ws.Cells(row, 8).Value = tx.CodAut
+        ws.Cells(row, 9).Value = tx.RRN
+        ws.Cells(row, 10).Value = tx.Document
+        ws.Cells(row, 11).Value = tx.IdTerm
+        ws.Cells(row, 12).Value = tx.DenumireTerminal
+        ws.Cells(row, 13).Value = tx.Cont
+        row = row + 1
     Next tx
     
     ws.Columns.AutoFit
@@ -82,7 +77,7 @@ Public Sub ExportGroupedFilesToExcel(grouped As Object, _
                     datePart & ".xlsx"
         
         Application.ScreenUpdating = False
-        WriteGroupedTxtFilesToExcel mergedTxt, outputPath, startDate, endDate
+        WriteGroupedTxtFilesToExcel mergedTxt, outputPath
         Application.ScreenUpdating = True
     Next groupKey
 End Sub
