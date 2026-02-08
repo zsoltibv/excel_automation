@@ -44,9 +44,9 @@ Public Function GroupTxtFiles(txtList As Collection, _
 
     ' Check if any transactions exist
     If Not hasTransactions Then
-        MsgBox "Nu au fost gasite tranzactii in intervalul selectat." & vbCrLf & _
-               "Verifica datele si incearca din nou.", _
-               vbExclamation, "Nicio tranzactie gasita"
+        MsgBox "Nu au fost gasite tranzactii in intervalul selectat sau folderul input este gol." & vbCrLf & _
+            "Verifica datele si incearca din nou.", _
+            vbExclamation, "Nicio tranzactie gasita"
         Set GroupTxtFiles = Nothing
         Exit Function
     End If
