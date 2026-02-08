@@ -30,6 +30,7 @@ Public Sub TxtToExcelGroupedFiles(ByVal startDate As Date, ByVal endDate As Date
     
     ' ===== Parse commission table FIRST =====
     Set commissions = ParseCommissionTable()
+    If commissions Is Nothing Then Exit Sub ' Stop if validation failed
     
     ' ===== Parse all TXT files =====
     For Each file In folder.Files
