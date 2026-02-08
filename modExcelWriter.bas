@@ -52,9 +52,9 @@ Public Sub WriteGroupedTxtFilesToExcel(txtCollection As Collection, _
                 ws.Cells(row, 9).Value = tx.RRN
                 ws.Cells(row, 10).Value = tx.Document
 
-                ws.Cells(row, 11).Value = txt.Header.IdTerm
-                ws.Cells(row, 12).Value = txt.Header.DenumireTerminal
-                ws.Cells(row, 13).Value = txt.Header.Cont
+                ws.Cells(row, 11).Value = tx.IdTerm
+                ws.Cells(row, 12).Value = tx.DenumireTerminal
+                ws.Cells(row, 13).Value = tx.Cont
 
                 row = row + 1
             End If

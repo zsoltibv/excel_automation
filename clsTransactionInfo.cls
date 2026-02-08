@@ -20,3 +20,8 @@ Public TipC As String
 Public CodAut As String
 Public RRN As String
 Public Document As String
+
+' ===== Header info saved with each transaction =====
+Public IdTerm As String
+Public DenumireTerminal As String
+Public Cont As String

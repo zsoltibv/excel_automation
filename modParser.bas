@@ -94,6 +94,11 @@ Private Sub ParseTransactions(ts As Object, txt As clsTxtFile)
                 .CodAut    = Trim(Mid(line, 95, 7))
                 .RRN       = Trim(Mid(line, 102, 12))
                 .Document  = Trim(Mid(line, 115))
+
+                ' ===== Save header info with transaction =====
+                .IdTerm = txt.Header.IdTerm
+                .DenumireTerminal = txt.Header.DenumireTerminal
+                .Cont = txt.Header.Cont
             End With
             txt.AddTransaction tx
         End If
