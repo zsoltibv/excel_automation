@@ -20,22 +20,28 @@ Public EndDate As Date
 Public IsCancelled As Boolean
 
 Private Sub btnOK_Click()
-    On Error GoTo InvalidDate
-    
-    StartDate = ParseDateDMY(txtStartDate.Value)
-    EndDate = ParseDateDMY(txtEndDate.Value)
-    
-    If EndDate < StartDate Then
-        MsgBox "End date must be after Start date.", vbExclamation
+    Dim msg As String
+
+    If Not TryParseDateDMY(txtStartDate.Value, StartDate, msg) Then
+        MsgBox "Data de inceput invalida:" & vbCrLf & msg, vbExclamation
+        txtStartDate.SetFocus
         Exit Sub
     End If
-    
+
+    If Not TryParseDateDMY(txtEndDate.Value, EndDate, msg) Then
+        MsgBox "Data de sfarsit invalida:" & vbCrLf & msg, vbExclamation
+        txtEndDate.SetFocus
+        Exit Sub
+    End If
+
+    If EndDate < StartDate Then
+        MsgBox "Data de sfarsit trebuie sa fie dupa data de inceput.", vbExclamation
+        txtEndDate.SetFocus
+        Exit Sub
+    End If
+
     IsCancelled = False
     Me.Hide
-    Exit Sub
-
-InvalidDate:
-    MsgBox "Please enter valid dates (dd/mm/yyyy).", vbExclamation
 End Sub
 
 Private Sub UserForm_Initialize()

@@ -70,7 +70,9 @@ Public Sub TxtToExcelGroupedFiles(ByVal startDate As Date, ByVal endDate As Date
         Application.ScreenUpdating = True
     Next groupKey
 
-    MsgBox "All TXT files grouped and written to separate Excel files.", vbInformation
+    MsgBox "Operatiunea s-a finalizat cu succes." & vbCrLf & _
+       "Fisierele TXT au fost grupate si exportate in fisiere Excel separate.", _
+       vbInformation, "Finalizat"
 End Sub
 
 Private Function CleanFileName(str As String) As String
