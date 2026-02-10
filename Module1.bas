@@ -29,8 +29,12 @@ Public Sub TxtToExcelGroupedFiles(ByVal startDate As Date, ByVal endDate As Date
     Set folder = fso.GetFolder(inputFolder)
     
     ' ===== Parse commission table FIRST =====
-    Set commissions = ParseCommissionTable()
-    If commissions Is Nothing Then Exit Sub 
+    If UseCommission Then
+        Set commissions = ParseCommissionTable()
+        If commissions Is Nothing Then Exit Sub
+    Else
+        Set commissions = Nothing
+    End If
     
     ' ===== Parse all TXT files =====
     For Each file In folder.Files

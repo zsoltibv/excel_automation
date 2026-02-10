@@ -20,9 +20,11 @@ Public Function GroupTxtFiles(txtList As Collection, _
         key = txt.Header.IdComer & "_" & txt.Header.Payment
 
         ' Validate IdTerm exists in commission table
-        If Not ValidateIdTerm(txt.Header.IdTerm, commissions) Then
-            Set GroupTxtFiles = Nothing
-            Exit Function
+        If UseCommission Then
+            If Not ValidateIdTerm(txt.Header.IdTerm, commissions) Then
+                Set GroupTxtFiles = Nothing
+                Exit Function
+            End If
         End If
         
         If Not grouped.Exists(key) Then

@@ -48,33 +48,26 @@ Public Sub MergeTxtFileFiltered(txt As clsTxtFile, _
                                 startDate As Date, _
                                 endDate As Date, _
                                 commissions As Object)
+
     Dim trx As clsTransactionInfo
     Dim comm As clsCommission
-    Dim calculatedComm As Currency
-    
+
     For Each trx In txt.Transactions
+
         ' ===== DATE FILTER =====
         If trx.DataOper >= startDate And trx.DataOper <= endDate Then
-            
-            ' ===== CALCULATE COMMISSION =====
-            If commissions.Exists(trx.IdTerm) Then
-                Set comm = commissions(trx.IdTerm)
-                
-                ' Calculate: Valoare * CommissionPercent
-                calculatedComm = (trx.Valoare * comm.CommissionPercent) / 100
-                
-                ' Apply min/max limits (only if they are non-zero)
-                If comm.MaxCommission > 0 And calculatedComm > comm.MaxCommission Then
-                    trx.Comision = comm.MaxCommission
-                ElseIf comm.MinCommission > 0 And calculatedComm < comm.MinCommission Then
-                    trx.Comision = comm.MinCommission
-                Else
-                    trx.Comision = calculatedComm
+
+            ' ===== COMMISION CALCULATION =====
+            If UseCommission Then
+                If commissions.Exists(trx.IdTerm) Then
+                    Set comm = commissions(trx.IdTerm)
+                    trx.Comision = CalculateCommission(trx.Valoare, comm)
                 End If
             End If
-            
-            ' Add filtered and updated transaction
+
             mTransactions.Add trx
         End If
+
     Next trx
+
 End Sub

@@ -40,6 +40,9 @@ Private Sub btnOK_Click()
         Exit Sub
     End If
 
+    ' Save commision settings globally
+    UseCommission = commCheckbox.Value
+
     IsCancelled = False
     Me.Hide
 End Sub
